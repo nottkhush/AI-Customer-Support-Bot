@@ -1,4 +1,3 @@
-// lib/gemini.ts
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
@@ -13,7 +12,6 @@ const geminiModel = genAI.getGenerativeModel({
   `,
 });
 
-// Helper function to generate AI responses
 export async function generateChatResponse(prompt: string): Promise<string> {
   const result = await geminiModel.generateContent(prompt);
   return result.response.text();

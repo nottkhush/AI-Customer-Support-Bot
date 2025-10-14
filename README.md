@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Customer Support Bot
 
-## Getting Started
+## 🚀 Project Overview
 
-First, run the development server:
+**AI Customer Support Bot** is a modern AI-powered chatbot built with **Next.js 13**, **Drizzle ORM**, **Neon PostgreSQL**, and the **Google Gemini API**. It simulates real-time customer support, answering FAQs and escalating queries that it cannot handle.  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The bot features **contextual conversation memory**, session tracking, and a responsive frontend interface.
+
+---
+
+## 🌟 Features
+
+- AI-powered responses using **Google Gemini LLM**.  
+- Persistent conversation history per user session.  
+- FAQ-based response generation for common queries.  
+- Escalation simulation when the bot cannot answer.  
+- Session and message storage in **Neon PostgreSQL** via **Drizzle ORM**.  
+- Responsive chat interface built with **Next.js 13 App Router** and **Tailwind CSS**.  
+- Easy deployment on **Vercel**.  
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer             | Technology |
+|------------------|------------|
+| Frontend          | Next.js 13, Tailwind CSS, React |
+| Backend / API     | Next.js API Routes (App Router), TypeScript |
+| Database          | PostgreSQL (Neon) |
+| ORM / Query       | Drizzle ORM |
+| AI / LLM          | Google Gemini API |
+
+---
+
+
+## 📁 Project Structure
+
+ai-chat-bot/
+├─ app/
+│ ├─ api/chat/route.ts # API route for chat interactions
+│ └─ page.tsx # Frontend chat interface
+├─ db/
+│ ├─ index.ts # Drizzle database setup
+│ └─ schema.ts # Database table definitions
+├─ drizzle/
+│ └─ 0000_spooky_baron_strucker.sql # Initial migration
+├─ lib/
+│ └─ gemini.ts # Google Gemini API integration
+├─ package.json
+├─ tsconfig.json
+├─ next.config.js
+└─ README.md
+
+
+---
+
+
+## 📝 Usage
+
+- Type your question in the input box and press **Enter** or click **Send**.
+- The bot uses stored conversation history and FAQ context to respond.
+- Example questions:
+  - `Where can I buy a shirt?`
+  - `How can I reset my password?`
+  - `What are your support hours?`
+- If the bot cannot answer a question, it responds with:
+      Sorry, I’ll escalate this to a human representative.
+- Use the **Reset** button to start a new chat session.
+
+
+## 💻 API Route
+
+**POST** `/api/chat`
+
+**Request Body:**
+
+```json
+{
+  "userId": "demo-user",
+  "message": "Where can I buy a shirt?",
+  "conversation": [
+    { "role": "user", "content": "hello" },
+    { "role": "bot", "content": "Hi! How can I help you?" }
+  ]
+}
+{
+  "response": "You can buy shirts at https://example.com/shop"
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧠 AI Integration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Uses **Google Gemini 2.0 Flash** model.
+- System instruction ensures the bot:
+  - Answers FAQs.
+  - Provides professional, concise responses.
+  - Only escalates when it cannot answer.
+- Supports **conversation history** to maintain context across messages.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ❤️ Acknowledgements
 
-To learn more about Next.js, take a look at the following resources:
+- Built with **Next.js**, **Drizzle ORM**, **Tailwind CSS**, and **Google Gemini**.
+- Inspired by modern AI-powered customer support systems.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { messages, sessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { geminiModel } from "@/lib/gemini";
+import faqData from "@/data/faq.json"; // import your FAQ JSON
 
 interface ChatRequestBody {
   userId: string;
@@ -32,30 +33,26 @@ export async function POST(req: Request) {
     orderBy: (m, { asc }) => [asc(m.createdAt)],
   });
 
- const historyText = history
-  .map((m) => {
-    const role = m.role === "user" || m.role === "bot" ? m.role : "bot"; // fallback to 'bot' if something unexpected
-    return `${role === "user" ? "User" : "Assistant"}: ${m.content}`;
-  })
-  .join("\n");
+  const historyText = history
+    .map((m) => {
+      const role = m.role === "user" || m.role === "bot" ? m.role : "bot"; // fallback to 'bot' if unexpected
+      return `${role === "user" ? "User" : "Assistant"}: ${m.content}`;
+    })
+    .join("\n");
 
-  // FAQ context
-  const faqContext = `
-FAQs:
-Q: How can I reset my password?
-A: You can reset your password from the settings page.
-
-Q: What are your support hours?
-A: Our support is available 24/7.
-
-Q: Where can I buy a shirt?
-A: You can buy shirts at https://example.com/shop
-`;
+  // Build FAQ context dynamically from JSON
+  const faqContext = faqData.questions
+    .map((q) => `Q: ${q.question}\nA: ${q.answer}`)
+    .join("\n\n");
 
   const prompt = `
 You are a helpful AI customer support assistant.
-Use the FAQ context to answer questions if possible.
 
+- Use the FAQ context below to answer questions when applicable.
+- If the user's question is not covered by the FAQs, provide a professional and concise answer using your general knowledge.
+- Only escalate to a human if you truly cannot provide an answer.
+
+FAQs:
 ${faqContext}
 
 Conversation history:

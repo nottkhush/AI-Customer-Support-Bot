@@ -1,5 +1,8 @@
 # AI Customer Support Bot
 
+## Demo video link
+https://drive.google.com/file/d/1CaD2xLHVBttt0KRzyQNSLLrBbprWkzjk/view?usp=sharing
+
 ## 🚀 Project Overview
 
 **AI Customer Support Bot** is a modern AI-powered chatbot built with **Next.js 13**, **Drizzle ORM**, **Neon PostgreSQL**, and the **Google Gemini API**. It simulates real-time customer support, answering FAQs and escalating queries that it cannot handle.  
